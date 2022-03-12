@@ -11,7 +11,7 @@ class Dropcarbon_app extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Welcome to Flutter',
+      title: 'Welcome to Flutter', // title
       home: Splash(),
       theme: ThemeData(
         primarySwatch: Colors.green,
