@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:card_swiper/card_swiper.dart';
 import '/template/colors.dart';
 import 'dart:convert';
 import "package:http/http.dart" as http;
@@ -29,6 +28,11 @@ class Landing_page extends StatefulWidget {
 }
 
 class _Landing_pageState extends State<Landing_page> {
+
+   void initState() {
+    super.initState();
+    get_data_banner();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,7 +98,7 @@ class _Landing_pageState extends State<Landing_page> {
                    final List<String> banner_img = slideObjs.map((Slide) => Slide.toString()).toList();
 
               
-                    print(banner_img[1]);
+                    // print(banner_img[1]);
 
                     return build_carusel(banner_img);
                   },
@@ -120,17 +124,27 @@ class _Landing_pageState extends State<Landing_page> {
           ),
           SizedBox(
             height: 200,
-            child: ListView.builder(
+            child: FutureBuilder(
+              builder: (context, AsyncSnapshot snapshot) {
+                      return ListView.builder(
                 scrollDirection: Axis.horizontal,
-                // itemCount: hotDestination.length,
-                itemBuilder: (context, index) => Padding(
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) { 
+                 return Padding(
+                  
                       padding: EdgeInsets.only(left: index == 0 ? 30 : 0),
-                      child: hotDestinationCard(
-                          "https://www.paiduaykan.com/travel/wp-content/uploads/2018/09/%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B9%80%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%A2%E0%B8%A7%E0%B8%9A%E0%B8%B2%E0%B8%87%E0%B9%81%E0%B8%AA%E0%B8%99.jpg",
-                          "xxxxx",
-                          "w",
-                          context),
-                    )),
+                   
+                      child: Hotevent(
+                         context,
+                          snapshot.data[index]["eve_img_path"],
+                           snapshot.data[index]["eve_name"],
+                          ),
+                      
+                    );}
+                    );                
+              },
+                   future: get_data_event(),
+                    ),
           ),
           SizedBox(height: 20),
           Padding(
@@ -155,8 +169,7 @@ class _Landing_pageState extends State<Landing_page> {
     );
   }
 
-  Widget hotDestinationCard(String imagePath, String placeName,
-      String touristPlaceCount, BuildContext context) {
+  Widget Hotevent(BuildContext context, String imagePath, String event_name) {
     return GestureDetector(
       onTap: () => {
         // Navigator.push(context,
@@ -165,7 +178,7 @@ class _Landing_pageState extends State<Landing_page> {
       child: Stack(children: [
         Hero(
           tag: Image.network(
-              "https://www.paiduaykan.com/travel/wp-content/uploads/2018/09/%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B9%80%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%A2%E0%B8%A7%E0%B8%9A%E0%B8%B2%E0%B8%87%E0%B9%81%E0%B8%AA%E0%B8%99.jpg"),
+              "https://www.informatics.buu.ac.th/team2/image_event/${imagePath}"),
           child: Container(
             height: 200,
             width: 140,
@@ -175,7 +188,7 @@ class _Landing_pageState extends State<Landing_page> {
               borderRadius: BorderRadius.circular(25),
               image: DecorationImage(
                 image: NetworkImage(
-                    "https://www.paiduaykan.com/travel/wp-content/uploads/2018/09/%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B9%80%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%A2%E0%B8%A7%E0%B8%9A%E0%B8%B2%E0%B8%87%E0%B9%81%E0%B8%AA%E0%B8%99.jpg"),
+                     "https://www.informatics.buu.ac.th/team2/image_event/${imagePath}"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -204,7 +217,7 @@ class _Landing_pageState extends State<Landing_page> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  "วิ่งควาย",
+                 "${event_name}",
                   style: TextStyle(color: Colors.white),
                 ),
               ]),
@@ -238,6 +251,20 @@ class _Landing_pageState extends State<Landing_page> {
 
     var result = respone.body;
 
+    // print(result);
+
     return result;
+  }
+
+   Future get_data_event() async {
+    var url = Uri.parse(
+        'https://www.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_event_list_landingpage/');
+
+    var respone = await http.get(url);
+
+    var result = jsonDecode(respone.body);
+
+     print(result['arr_event']);
+    return result['arr_event'];
   }
 }
