@@ -32,6 +32,7 @@ class _Landing_pageState extends State<Landing_page> {
   void initState() {
     super.initState();
     get_data_banner();
+    get_data_company();
   }
 
   @override
@@ -83,7 +84,7 @@ class _Landing_pageState extends State<Landing_page> {
         children: [
           Container(
             child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(3.0),
                 child: FutureBuilder(
                   future: get_data_banner(),
                   builder: (context, AsyncSnapshot snapshot) {
@@ -104,10 +105,10 @@ class _Landing_pageState extends State<Landing_page> {
                   },
                 )),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 10),
           Padding(
             padding:
-                const EdgeInsets.only(top: 10, left: 25, right: 25, bottom: 30),
+                const EdgeInsets.only(top: 5, left: 25, right: 25, bottom: 30),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -166,6 +167,27 @@ class _Landing_pageState extends State<Landing_page> {
                   style: TextStyle(fontSize: 16),
                 ),
               ],
+            ),
+          ),
+          SizedBox(
+            height: 200,
+            child: FutureBuilder(
+              builder: (context, AsyncSnapshot snapshot) {
+                return ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.only(left: index == 0 ? 30 : 0),
+                        child: Hotplace(
+                          context,
+                          snapshot.data[index]["com_img_path"],
+                          snapshot.data[index]["com_name"],
+                        ),
+                      );
+                    });
+              },
+              future: get_data_company(),
             ),
           ),
         ],
@@ -230,18 +252,94 @@ class _Landing_pageState extends State<Landing_page> {
     );
   }
 
+
+  Widget Hotplace(BuildContext context, String imagePath, String com_name) {
+    return GestureDetector(
+      onTap: () => {
+        // Navigator.push(context,
+        //     MaterialPageRoute(builder: (context) => DestinationDetail(imagePath)))
+      },
+      child: Stack(children: [
+        Hero(
+          tag: Image.network(
+              "https://www.informatics.buu.ac.th/team2/image_event/${imagePath}"),
+          child: Container(
+            height: 200,
+            width: 140,
+            margin: EdgeInsets.only(right: 25),
+            padding: EdgeInsets.only(bottom: 20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+              image: DecorationImage(
+                image: NetworkImage(
+                    "https://www.informatics.buu.ac.th/team2/image_company/${imagePath}"),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          top: 0,
+          left: 0,
+          child: Container(
+            height: 200,
+            width: 140,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+              gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [AppColor.secondaryColor, Colors.transparent]),
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: 20,
+          left: 20,
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  "${com_name}",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ]),
+        ),
+      ]),
+    );
+  }
+
   Widget build_carusel(banner_img) {
     final List<String> banner = banner_img;
-
+    final List<Widget> imageSliders = banner
+        .map((item) => Container(
+              child: Container(
+                margin: EdgeInsets.all(0.8),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                    child: Stack(
+                      children: <Widget>[
+                        Image.network(
+                          item,
+                          fit: BoxFit.cover,
+                          width: 1300.0,
+                          height: 200,
+                        ),
+                      ],
+                    )),
+              ),
+            ))
+        .toList();
     return Container(
         child: CarouselSlider(
-      options: CarouselOptions(),
-      items: banner
-          .map((item) => Container(
-                child: Center(
-                    child: Image.network(item, fit: BoxFit.cover, width: 1500)),
-              ))
-          .toList(),
+      options: CarouselOptions(
+        aspectRatio: 2.0,
+        enlargeCenterPage: true,
+        scrollDirection: Axis.vertical,
+        autoPlay: true,
+      ),
+      items: imageSliders,
     ));
   }
 
@@ -268,5 +366,17 @@ class _Landing_pageState extends State<Landing_page> {
 
     print(result['arr_event']);
     return result['arr_event'];
+  }
+
+  Future get_data_company() async {
+    var url = Uri.parse(
+        'https://www.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_company_list_landingpage/');
+
+    var respone = await http.get(url);
+
+    var result = jsonDecode(respone.body);
+
+    print(result['arr_com']);
+    return result['arr_com'];
   }
 }
