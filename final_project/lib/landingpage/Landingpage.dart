@@ -4,6 +4,7 @@ import 'dart:convert';
 import "package:http/http.dart" as http;
 import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:final_project/event/List_event.dart';
 
 class Slide {
   String imageUrl;
@@ -28,11 +29,11 @@ class Landing_page extends StatefulWidget {
 }
 
 class _Landing_pageState extends State<Landing_page> {
-
-   void initState() {
+  void initState() {
     super.initState();
     get_data_banner();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,18 +87,17 @@ class _Landing_pageState extends State<Landing_page> {
                 child: FutureBuilder(
                   future: get_data_banner(),
                   builder: (context, AsyncSnapshot snapshot) {
-                    String json_string =
-                        snapshot.data.toString();
-                     var mySlideJson = jsonDecode(json_string)["data_banner_json"] as List;
+                    String json_string = snapshot.data.toString();
+                    var mySlideJson =
+                        jsonDecode(json_string)["data_banner_json"] as List;
 
-                     List<Slide> slideObjs = mySlideJson
-                       .map((slideJson) => Slide.fromJson(slideJson))
+                    List<Slide> slideObjs = mySlideJson
+                        .map((slideJson) => Slide.fromJson(slideJson))
                         .toList();
 
+                    final List<String> banner_img =
+                        slideObjs.map((Slide) => Slide.toString()).toList();
 
-                   final List<String> banner_img = slideObjs.map((Slide) => Slide.toString()).toList();
-
-              
                     // print(banner_img[1]);
 
                     return build_carusel(banner_img);
@@ -115,9 +115,16 @@ class _Landing_pageState extends State<Landing_page> {
                   'กิจกรรมยอดนิยม',
                   style: TextStyle(fontSize: 24),
                 ),
-                Text(
-                  'ดูเพิ่มเติม',
-                  style: TextStyle(fontSize: 16),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => List_event(),
+                      ),
+                    );
+                  },
+                  child: Text("ดูเพิ่มเติม"),
                 ),
               ],
             ),
@@ -126,25 +133,22 @@ class _Landing_pageState extends State<Landing_page> {
             height: 200,
             child: FutureBuilder(
               builder: (context, AsyncSnapshot snapshot) {
-                      return ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, index) { 
-                 return Padding(
-                  
-                      padding: EdgeInsets.only(left: index == 0 ? 30 : 0),
-                   
-                      child: Hotevent(
-                         context,
+                return ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.only(left: index == 0 ? 30 : 0),
+                        child: Hotevent(
+                          context,
                           snapshot.data[index]["eve_img_path"],
-                           snapshot.data[index]["eve_name"],
-                          ),
-                      
-                    );}
-                    );                
+                          snapshot.data[index]["eve_name"],
+                        ),
+                      );
+                    });
               },
-                   future: get_data_event(),
-                    ),
+              future: get_data_event(),
+            ),
           ),
           SizedBox(height: 20),
           Padding(
@@ -188,7 +192,7 @@ class _Landing_pageState extends State<Landing_page> {
               borderRadius: BorderRadius.circular(25),
               image: DecorationImage(
                 image: NetworkImage(
-                     "https://www.informatics.buu.ac.th/team2/image_event/${imagePath}"),
+                    "https://www.informatics.buu.ac.th/team2/image_event/${imagePath}"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -217,7 +221,7 @@ class _Landing_pageState extends State<Landing_page> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                 "${event_name}",
+                  "${event_name}",
                   style: TextStyle(color: Colors.white),
                 ),
               ]),
@@ -227,20 +231,18 @@ class _Landing_pageState extends State<Landing_page> {
   }
 
   Widget build_carusel(banner_img) {
-
     final List<String> banner = banner_img;
 
     return Container(
-   child: CarouselSlider(
-        options: CarouselOptions(),
-        items: banner
-            .map((item) => Container(
-                  child: Center(
-                      child:
-                          Image.network(item, fit: BoxFit.cover, width: 1500)),
-                ))
-            .toList(),
-      ));
+        child: CarouselSlider(
+      options: CarouselOptions(),
+      items: banner
+          .map((item) => Container(
+                child: Center(
+                    child: Image.network(item, fit: BoxFit.cover, width: 1500)),
+              ))
+          .toList(),
+    ));
   }
 
   Future get_data_banner() async {
@@ -256,7 +258,7 @@ class _Landing_pageState extends State<Landing_page> {
     return result;
   }
 
-   Future get_data_event() async {
+  Future get_data_event() async {
     var url = Uri.parse(
         'https://www.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_event_list_landingpage/');
 
@@ -264,7 +266,7 @@ class _Landing_pageState extends State<Landing_page> {
 
     var result = jsonDecode(respone.body);
 
-     print(result['arr_event']);
+    print(result['arr_event']);
     return result['arr_event'];
   }
 }
