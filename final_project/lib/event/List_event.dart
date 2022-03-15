@@ -3,6 +3,7 @@ import "package:http/http.dart" as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:final_project/landingpage/Landingpage.dart';
+import 'package:final_project/event/detail.dart';
 
 class List_event extends StatefulWidget {
   const List_event({Key? key}) : super(key: key);
@@ -83,13 +84,21 @@ class _List_eventState extends State<List_event> {
                 future: get_list_event(),
                 builder: (context, AsyncSnapshot snapshot) {
                   return SizedBox(
-                    height: 450,
+                    height: 600,
                     child: ListView.builder(
                       itemBuilder: (BuildContext context, int index) {
                         return build_card_event(
                             snapshot.data[index]['eve_id'],
                             snapshot.data[index]['eve_name'],
                             snapshot.data[index]['eve_img_path'],
+                            snapshot.data[index]['eve_description'],
+                            snapshot.data[index]['eve_cat_name'],
+                            snapshot.data[index]['eve_lat'],
+                            snapshot.data[index]['eve_lon'],
+                            snapshot.data[index]['par_name_th'],
+                            snapshot.data[index]['dis_name_th'],
+                            snapshot.data[index]['prv_name_th'],
+                            snapshot.data[index]['eve_drop_carbon'],
                             context);
                       },
                       itemCount: snapshot.data.length,
@@ -105,9 +114,38 @@ class _List_eventState extends State<List_event> {
   }
 
   Widget build_card_event(
-      String eve_id, String eve_name, String eve_img_path, context) {
-    var _eve_id, _eve_name, _eve_img_path;
+      String eve_id,
+      String eve_name,
+      String eve_img_path,
+      String eve_description,
+      String eve_cat_name,
+      String eve_lat,
+      String eve_lon,
+      String par_name_th,
+      String dis_name_th,
+      String prv_name_th,
+      String eve_drop_carbon,
+      context) {
+    var _eve_id,
+        _eve_name,
+        _eve_img_path,
+        _eve_description,
+        _eve_cat_name,
+        _eve_lat,
+        _eve_lon,
+        _par_name_th,
+        _dis_name_th,
+        _prv_name_th,
+        _eve_drop_carbon;
     _eve_id = eve_id;
+    _eve_description = eve_description;
+    _eve_cat_name = eve_cat_name;
+    _eve_lat = eve_lat;
+    _eve_lon = eve_lon;
+    _par_name_th = par_name_th;
+    _dis_name_th = dis_name_th;
+    _prv_name_th = prv_name_th;
+    _eve_drop_carbon = eve_drop_carbon;
     _eve_name = eve_name;
     if (_eve_name.length > 13) {
       _eve_name = _eve_name.substring(0, 14) + '...';
@@ -146,7 +184,17 @@ class _List_eventState extends State<List_event> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Landing_page(),
+                            builder: (context) => detail_event(
+                                _eve_name,
+                                _eve_img_path,
+                                _eve_description,
+                                _eve_cat_name,
+                                _eve_lat,
+                                _eve_lon,
+                                _par_name_th,
+                                _dis_name_th,
+                                _prv_name_th,
+                                _eve_drop_carbon),
                           ),
                         );
                       },
