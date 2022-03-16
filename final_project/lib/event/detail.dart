@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:final_project/landingpage/Landingpage.dart';
 import 'package:final_project/event/List_event.dart';
+import 'package:readmore/readmore.dart';
 
 class detail_event extends StatefulWidget {
   // const detail_event({Key? key}) : super(key: key);
@@ -182,6 +183,9 @@ class _detail_eventState extends State<detail_event> {
                 ],
               ),
             ),
+            Divider(
+              color: const Color(0xFF167F67),
+            ),
             SizedBox(height: 10.0),
             Padding(
               padding: EdgeInsets.only(bottom: 5.0, top: 2.0),
@@ -204,22 +208,47 @@ class _detail_eventState extends State<detail_event> {
                 ],
               ),
             ),
-            SizedBox(height: 20.0),
-            Text(
-              "รายละเอียดกิจกรรม",
-              style: TextStyle(
-                fontSize: 21,
-                fontWeight: FontWeight.w800,
-              ),
-              maxLines: 2,
+            Divider(
+              color: const Color(0xFF167F67),
             ),
-            SizedBox(height: 10.0),
-            Text(
-              _eve_description,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w300,
+            Padding(
+              padding: EdgeInsets.only(bottom: 5.0, top: 2.0),
+              child: Row(
+                children: <Widget>[
+                  Image.asset(
+                    'assets/images/proof-reading.png',
+                    width: 25,
+                  ),
+                  SizedBox(height: 20.0),
+                  Text(
+                    "รายละเอียดกิจกรรม",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 2,
+                  ),
+                  SizedBox(height: 10.0),
+                ],
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ReadMoreText(
+                _eve_description,
+                trimLines: 5,
+                colorClickableText: Colors.blue,
+                trimMode: TrimMode.Line,
+                trimCollapsedText: 'อ่านต่อ',
+                trimExpandedText: ' ย้อนกลับ',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            Divider(
+              color: const Color(0xFF167F67),
             ),
           ],
         ),
