@@ -3,16 +3,26 @@ import "package:http/http.dart" as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:final_project/landingpage/Landingpage.dart';
-import 'package:final_project/event/detail.dart';
+import 'package:final_project/event/Detail_event.dart';
 
 class List_event extends StatefulWidget {
-  const List_event({Key? key}) : super(key: key);
+  // const List_event({Key? key}) : super(key: key);
 
   @override
   State<List_event> createState() => _List_eventState();
 }
 
 class _List_eventState extends State<List_event> {
+  List event_list = [];
+  TextEditingController search = new TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    get_list_event();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,46 +79,128 @@ class _List_eventState extends State<List_event> {
         padding: const EdgeInsets.all(5.0),
         child: Column(
           children: [
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+                child: Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                SizedBox(
+                  width: 200,
+                  height: 40,
+                  child: TextField(
+                    controller: search,
+                    decoration: InputDecoration(
+                      labelText: 'ค้นหาด้วยชื่อกิจกรรม',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.blue)),
+                  onPressed: () {
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => List_event(),
+                    //   ),
+                    // );
+                    get_list_event_by_search(search.text);
+                  },
+                  child: Text("ค้นหา"),
+                ),
+              ],
+            )),
+
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => List_event(),
+            //       ),
+            //     );
+            //   },
+            //   child: Text("ค้นหา"),
+            // ),
+
             Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(4.0),
                   child: Text('รายการกิจกรรม',
                       style: TextStyle(color: Colors.black, fontSize: 24)),
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: FutureBuilder(
-                future: get_list_event(),
-                builder: (context, AsyncSnapshot snapshot) {
-                  return SizedBox(
-                    height: 600,
-                    child: ListView.builder(
-                      itemBuilder: (BuildContext context, int index) {
-                        return build_card_event(
-                            snapshot.data[index]['eve_id'],
-                            snapshot.data[index]['eve_name'],
-                            snapshot.data[index]['eve_img_path'],
-                            snapshot.data[index]['eve_description'],
-                            snapshot.data[index]['eve_cat_name'],
-                            snapshot.data[index]['eve_lat'],
-                            snapshot.data[index]['eve_lon'],
-                            snapshot.data[index]['par_name_th'],
-                            snapshot.data[index]['dis_name_th'],
-                            snapshot.data[index]['prv_name_th'],
-                            snapshot.data[index]['eve_drop_carbon'],
-                            context);
-                      },
-                      itemCount: snapshot.data.length,
-                    ),
-                  );
-                },
-              ),
+            SizedBox(
+              height: 10,
             ),
+            build_list_event()
+            // Padding(
+            //   padding: const EdgeInsets.all(5.0),
+            //   child: FutureBuilder(
+            //     future: get_list_event(),
+            //     builder: (context, AsyncSnapshot snapshot) {
+            //       return SizedBox(
+            //         height: 600,
+            //         child: ListView.builder(
+            //           itemBuilder: (BuildContext context, int index) {
+            //             return build_card_event(
+            //                 snapshot.data[index]['eve_id'],
+            //                 snapshot.data[index]['eve_name'],
+            //                 snapshot.data[index]['eve_img_path'],
+            //                 snapshot.data[index]['eve_description'],
+            //                 snapshot.data[index]['eve_cat_name'],
+            //                 snapshot.data[index]['eve_lat'],
+            //                 snapshot.data[index]['eve_lon'],
+            //                 snapshot.data[index]['par_name_th'],
+            //                 snapshot.data[index]['dis_name_th'],
+            //                 snapshot.data[index]['prv_name_th'],
+            //                 snapshot.data[index]['eve_drop_carbon'],
+            //                 context);
+            //           },
+            //           itemCount: snapshot.data.length,
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget build_list_event() {
+    return SizedBox(
+      height: 450,
+      child: ListView.builder(
+        itemCount: event_list.length,
+        itemBuilder: (context, index) {
+          // print(event_list[index]['eve_name']);
+          return build_card_event(
+              event_list[index]['eve_id'],
+              event_list[index]['eve_name'],
+              event_list[index]['eve_img_path'],
+              event_list[index]['eve_description'],
+              event_list[index]['eve_cat_name'],
+              event_list[index]['eve_lat'],
+              event_list[index]['eve_lon'],
+              event_list[index]['par_name_th'],
+              event_list[index]['dis_name_th'],
+              event_list[index]['prv_name_th'],
+              event_list[index]['eve_drop_carbon'],
+              context);
+        },
       ),
     );
   }
@@ -209,6 +301,15 @@ class _List_eventState extends State<List_event> {
     );
   }
 
+  // Future get_list_event() async {
+  //   var url = Uri.parse(
+  //       'https://www.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_event_list_ajax');
+
+  //   var respone = await http.get(url);
+
+  //   var result = json.decode(respone.body);
+  //   return result['arr_event'];
+  // }
   Future get_list_event() async {
     var url = Uri.parse(
         'https://www.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_event_list_ajax');
@@ -216,6 +317,21 @@ class _List_eventState extends State<List_event> {
     var respone = await http.get(url);
 
     var result = json.decode(respone.body);
-    return result['arr_event'];
+    print(result);
+    setState(() {
+      event_list = result['arr_event'];
+    });
+  }
+
+  Future get_list_event_by_search(String _search) async {
+    // print(_search);
+    var url = Uri.parse(
+        'https://www.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_event_list_ajax/${_search}');
+    var respone = await http.get(url);
+    var result = json.decode(respone.body);
+    // print(path);
+    setState(() {
+      event_list = result['arr_event'];
+    });
   }
 }
