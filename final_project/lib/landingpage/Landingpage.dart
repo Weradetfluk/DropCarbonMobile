@@ -5,6 +5,7 @@ import "package:http/http.dart" as http;
 import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:final_project/event/List_event.dart';
+import 'package:final_project/promotion/List_promotion.dart';
 
 class Slide {
   String imageUrl;
@@ -188,6 +189,31 @@ class _Landing_pageState extends State<Landing_page> {
                     });
               },
               future: get_data_company(),
+            ),
+          ),
+          SizedBox(height: 10),
+          Padding(
+            padding:
+                const EdgeInsets.only(top: 5, left: 25, right: 25, bottom: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'โปรโมชันและรางวัล',
+                  style: TextStyle(fontSize: 24),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => List_promotion(),
+                      ),
+                    );
+                  },
+                  child: Text("ดูเพิ่มเติม"),
+                ),
+              ],
             ),
           ),
         ],
