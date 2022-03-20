@@ -107,31 +107,12 @@ class _List_eventState extends State<List_event> {
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Colors.blue)),
                   onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => List_event(),
-                    //   ),
-                    // );
                     get_list_event_by_search(search.text);
                   },
                   child: Text("ค้นหา"),
                 ),
               ],
             )),
-
-            // TextButton(
-            //   onPressed: () {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //         builder: (context) => List_event(),
-            //       ),
-            //     );
-            //   },
-            //   child: Text("ค้นหา"),
-            // ),
-
             Row(
               children: [
                 Padding(
@@ -145,35 +126,6 @@ class _List_eventState extends State<List_event> {
               height: 10,
             ),
             build_list_event()
-            // Padding(
-            //   padding: const EdgeInsets.all(5.0),
-            //   child: FutureBuilder(
-            //     future: get_list_event(),
-            //     builder: (context, AsyncSnapshot snapshot) {
-            //       return SizedBox(
-            //         height: 600,
-            //         child: ListView.builder(
-            //           itemBuilder: (BuildContext context, int index) {
-            //             return build_card_event(
-            //                 snapshot.data[index]['eve_id'],
-            //                 snapshot.data[index]['eve_name'],
-            //                 snapshot.data[index]['eve_img_path'],
-            //                 snapshot.data[index]['eve_description'],
-            //                 snapshot.data[index]['eve_cat_name'],
-            //                 snapshot.data[index]['eve_lat'],
-            //                 snapshot.data[index]['eve_lon'],
-            //                 snapshot.data[index]['par_name_th'],
-            //                 snapshot.data[index]['dis_name_th'],
-            //                 snapshot.data[index]['prv_name_th'],
-            //                 snapshot.data[index]['eve_drop_carbon'],
-            //                 context);
-            //           },
-            //           itemCount: snapshot.data.length,
-            //         ),
-            //       );
-            //     },
-            //   ),
-            // ),
           ],
         ),
       ),
@@ -253,7 +205,7 @@ class _List_eventState extends State<List_event> {
             Row(
               children: [
                 Image.network(
-                  'https://www.informatics.buu.ac.th/team2/image_event/' +
+                  'https://prepro.informatics.buu.ac.th/team2/image_event/' +
                       _eve_img_path,
                   fit: BoxFit.cover,
                   width: 150,
@@ -301,18 +253,9 @@ class _List_eventState extends State<List_event> {
     );
   }
 
-  // Future get_list_event() async {
-  //   var url = Uri.parse(
-  //       'https://www.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_event_list_ajax');
-
-  //   var respone = await http.get(url);
-
-  //   var result = json.decode(respone.body);
-  //   return result['arr_event'];
-  // }
   Future get_list_event() async {
     var url = Uri.parse(
-        'https://www.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_event_list_ajax');
+        'https://prepro.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_event_list_ajax');
 
     var respone = await http.get(url);
 
@@ -326,7 +269,7 @@ class _List_eventState extends State<List_event> {
   Future get_list_event_by_search(String _search) async {
     // print(_search);
     var url = Uri.parse(
-        'https://www.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_event_list_ajax/${_search}');
+        'https://prepro.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_event_list_ajax/${_search}');
     var respone = await http.get(url);
     var result = json.decode(respone.body);
     // print(path);
