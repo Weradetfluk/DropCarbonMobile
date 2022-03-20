@@ -30,10 +30,18 @@ class Landing_page extends StatefulWidget {
 }
 
 class _Landing_pageState extends State<Landing_page> {
+  List lst_banner_list = [];
+  List lst_eve_list = [];
+  List lst_com_list = [];
+  List lst_data_pros = [];
+  List lst_data_promotions = [];
   void initState() {
     super.initState();
     get_data_banner();
+    get_data_event();
     get_data_company();
+    get_data_pros();
+    get_data_promotions();
   }
 
   @override
@@ -69,12 +77,7 @@ class _Landing_pageState extends State<Landing_page> {
             ListTile(
               title: const Text('เข้าสู่ระบบ'),
               onTap: () {
-                setState(() {
-                  // Navigator.pushReplacement(context,
-                  //           MaterialPageRoute(builder: (context) {
-                  //         return true;
-                  //       }));
-                });
+                setState(() {});
               },
             ),
           ],
@@ -89,20 +92,19 @@ class _Landing_pageState extends State<Landing_page> {
                 child: FutureBuilder(
                   future: get_data_banner(),
                   builder: (context, AsyncSnapshot snapshot) {
-                    String json_string = snapshot.data.toString();
-                    var mySlideJson =
-                        jsonDecode(json_string)["data_banner_json"] as List;
+                    String jsonString = snapshot.data.toString();
+                    var mySlideJson = lst_banner_list as List;
 
                     List<Slide> slideObjs = mySlideJson
                         .map((slideJson) => Slide.fromJson(slideJson))
                         .toList();
 
-                    final List<String> banner_img =
+                    final List<String> bannerImg =
                         slideObjs.map((Slide) => Slide.toString()).toList();
 
                     // print(banner_img[1]);
 
-                    return build_carusel(banner_img);
+                    return build_carusel(bannerImg);
                   },
                 )),
           ),
@@ -137,19 +139,18 @@ class _Landing_pageState extends State<Landing_page> {
               builder: (context, AsyncSnapshot snapshot) {
                 return ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: snapshot.data.length,
+                    itemCount: lst_eve_list.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: EdgeInsets.only(left: index == 0 ? 30 : 0),
                         child: Hotevent(
                           context,
-                          snapshot.data[index]["eve_img_path"],
-                          snapshot.data[index]["eve_name"],
+                          lst_eve_list[index]["eve_img_path"],
+                          lst_eve_list[index]["eve_name"],
                         ),
                       );
                     });
               },
-              future: get_data_event(),
             ),
           ),
           SizedBox(height: 20),
@@ -176,20 +177,170 @@ class _Landing_pageState extends State<Landing_page> {
               builder: (context, AsyncSnapshot snapshot) {
                 return ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: snapshot.data.length,
+                    itemCount: lst_com_list.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: EdgeInsets.only(left: index == 0 ? 30 : 0),
                         child: Hotplace(
                           context,
-                          snapshot.data[index]["com_img_path"],
-                          snapshot.data[index]["com_name"],
+                          lst_com_list[index]["com_img_path"],
+                          lst_com_list[index]["com_name"],
                         ),
                       );
                     });
               },
-              future: get_data_company(),
             ),
+          ),
+          SizedBox(height: 20),
+          Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    child: Text(
+                      "การท่องเที่ยวแบบลดคาร์บอน เป็นกิจกรรมการท่องเที่ยว",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    child: Text(
+                      "ที่เป็นทางเลือกในการลดคาร์บอนให้น้อยลง",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    child: Text(
+                      "ซึ่งจะทำให้นักท่องเที่ยวได้รับประสบการณ์เกี่ยวกับ",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    child: Text(
+                      "การช่วยลดคาร์บอน Drop Carbon จะพาสมาชิก ",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    child: Text(
+                      "และนักท่องเที่ยวทุกท่านได้มีส่วนร่วมกับกิจกรรม",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    child: Text(
+                      "ที่ช่วยลดคาร์บอน ไม่ว่าจะเป็นบริการต่าง ๆ",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    child: Text(
+                      "ในพื้นที่จังหวัดชลบุรี",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: 20),
+          Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "20",
+                        style: TextStyle(fontSize: 30),
+                      ),
+                      Text(
+                        "สมาชิก",
+                        style: TextStyle(fontSize: 20),
+                      )
+                    ],
+                  ),
+                  Padding(padding: const EdgeInsets.all(10.0)),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "18",
+                        style: TextStyle(fontSize: 30),
+                      ),
+                      Text(
+                        "ผู้ประกอบการ",
+                        style: TextStyle(fontSize: 20),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "18",
+                        style: TextStyle(fontSize: 30),
+                      ),
+                      Text(
+                        "กิจกรรม",
+                        style: TextStyle(fontSize: 20),
+                      )
+                    ],
+                  ),
+                  Padding(padding: const EdgeInsets.all(10.0)),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "18",
+                        style: TextStyle(fontSize: 30),
+                      ),
+                      Text(
+                        "สถานที่ท่องเที่ยว",
+                        style: TextStyle(fontSize: 20),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ],
           ),
           SizedBox(height: 10),
           Padding(
@@ -216,12 +367,32 @@ class _Landing_pageState extends State<Landing_page> {
               ],
             ),
           ),
+          SizedBox(
+            height: 200,
+            child: FutureBuilder(
+              builder: (context, AsyncSnapshot snapshot) {
+                return ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: lst_data_promotions.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.only(left: index == 0 ? 30 : 0),
+                        child: HotPromotion(
+                          context,
+                          lst_data_promotions[index]["pro_img_path"],
+                          lst_data_promotions[index]["pro_name"],
+                        ),
+                      );
+                    });
+              },
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget Hotevent(BuildContext context, String imagePath, String event_name) {
+  Widget Hotevent(BuildContext context, String imagePath, String eventName) {
     return GestureDetector(
       onTap: () => {
         // Navigator.push(context,
@@ -269,7 +440,7 @@ class _Landing_pageState extends State<Landing_page> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  "${event_name}",
+                  "${eventName}",
                   style: TextStyle(color: Colors.white),
                 ),
               ]),
@@ -278,8 +449,7 @@ class _Landing_pageState extends State<Landing_page> {
     );
   }
 
-
-  Widget Hotplace(BuildContext context, String imagePath, String com_name) {
+  Widget Hotplace(BuildContext context, String imagePath, String comName) {
     return GestureDetector(
       onTap: () => {
         // Navigator.push(context,
@@ -327,7 +497,7 @@ class _Landing_pageState extends State<Landing_page> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  "${com_name}",
+                  "${comName}",
                   style: TextStyle(color: Colors.white),
                 ),
               ]),
@@ -336,8 +506,66 @@ class _Landing_pageState extends State<Landing_page> {
     );
   }
 
-  Widget build_carusel(banner_img) {
-    final List<String> banner = banner_img;
+  Widget HotPromotion(
+      BuildContext context, String imagePath, String promotionName) {
+    return GestureDetector(
+      onTap: () => {
+        // Navigator.push(context,
+        //     MaterialPageRoute(builder: (context) => DestinationDetail(imagePath)))
+      },
+      child: Stack(children: [
+        Hero(
+          tag: Image.network(
+              "https://www.informatics.buu.ac.th/team2/image_promotions/${imagePath}"),
+          child: Container(
+            height: 200,
+            width: 140,
+            margin: EdgeInsets.only(right: 25),
+            padding: EdgeInsets.only(bottom: 20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+              image: DecorationImage(
+                image: NetworkImage(
+                    "https://www.informatics.buu.ac.th/team2/image_promotions/${imagePath}"),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          top: 0,
+          left: 0,
+          child: Container(
+            height: 200,
+            width: 140,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+              gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [AppColor.secondaryColor, Colors.transparent]),
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: 20,
+          left: 20,
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  "${promotionName}",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ]),
+        ),
+      ]),
+    );
+  }
+
+  Widget build_carusel(bannerImg) {
+    final List<String> banner = bannerImg;
     final List<Widget> imageSliders = banner
         .map((item) => Container(
               child: Container(
@@ -375,11 +603,13 @@ class _Landing_pageState extends State<Landing_page> {
 
     var respone = await http.get(url);
 
-    var result = respone.body;
+    var result = json.decode(respone.body);
+    ;
 
     // print(result);
-
-    return result;
+    setState(() {
+      lst_banner_list = result['data_banner_json'];
+    });
   }
 
   Future get_data_event() async {
@@ -390,8 +620,9 @@ class _Landing_pageState extends State<Landing_page> {
 
     var result = jsonDecode(respone.body);
 
-    print(result['arr_event']);
-    return result['arr_event'];
+    setState(() {
+      lst_eve_list = result['arr_event'];
+    });
   }
 
   Future get_data_company() async {
@@ -402,7 +633,36 @@ class _Landing_pageState extends State<Landing_page> {
 
     var result = jsonDecode(respone.body);
 
-    print(result['arr_com']);
-    return result['arr_com'];
+    setState(() {
+      lst_com_list = result['arr_com'];
+    });
+  }
+
+  Future get_data_pros() async {
+    var url = Uri.parse(
+        'https://www.informatics.buu.ac.th/team2/DCS_controller/get_data_pros/');
+
+    var respone = await http.get(url);
+
+    var result = jsonDecode(respone.body);
+
+    setState(() {
+      lst_data_pros = result['arr_data_pros'];
+      print(lst_data_pros);
+    });
+  }
+
+  Future get_data_promotions() async {
+    var url = Uri.parse(
+        'https://www.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_promotion_list_landingpage/');
+
+    var respone = await http.get(url);
+
+    var result = jsonDecode(respone.body);
+
+    setState(() {
+      lst_data_promotions = result['arr_pro'];
+      print(lst_data_promotions);
+    });
   }
 }
