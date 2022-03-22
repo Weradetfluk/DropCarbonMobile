@@ -1,3 +1,4 @@
+import 'package:final_project/event/Detail_event.dart';
 import 'package:flutter/material.dart';
 import '/template/colors.dart';
 import 'dart:convert';
@@ -145,8 +146,16 @@ class _Landing_pageState extends State<Landing_page> {
                         padding: EdgeInsets.only(left: index == 0 ? 30 : 0),
                         child: Hotevent(
                           context,
-                          lst_eve_list[index]["eve_img_path"],
-                          lst_eve_list[index]["eve_name"],
+                          lst_eve_list[index]["eve_name"].toString(),
+                          lst_eve_list[index]["eve_img_path"].toString(),
+                          lst_eve_list[index]["eve_description"].toString(),
+                          lst_eve_list[index]["eve_cat_name"].toString(),
+                          lst_eve_list[index]["eve_lat"].toString(),
+                          lst_eve_list[index]["eve_lon"].toString(),
+                          lst_eve_list[index]["par_name_th"].toString(),
+                          lst_eve_list[index]["dis_name_th"].toString(),
+                          lst_eve_list[index]["prv_name_th"].toString(),
+                          lst_eve_list[index]["eve_drop_carbon"].toString(),
                         ),
                       );
                     });
@@ -192,6 +201,16 @@ class _Landing_pageState extends State<Landing_page> {
             ),
           ),
           SizedBox(height: 20),
+          Padding(
+            padding:
+                const EdgeInsets.only(top: 10, left: 25, right: 25, bottom: 10),
+            child: Center(
+              child: Text(
+                'ABOUT US',
+                style: TextStyle(fontSize: 24),
+              ),
+            ),
+          ),
           Column(
             children: [
               Row(
@@ -392,16 +411,64 @@ class _Landing_pageState extends State<Landing_page> {
     );
   }
 
-  Widget Hotevent(BuildContext context, String imagePath, String eventName) {
+  Widget Hotevent(
+    BuildContext context,
+    String eve_name,
+    String eve_img_path,
+    String eve_description,
+    String eve_cat_name,
+    String eve_lat,
+    String eve_lon,
+    String par_name_th,
+    String dis_name_th,
+    String prv_name_th,
+    String eve_drop_carbon,
+  ) {
+    var _eve_name,
+        _eve_img_path,
+        _eve_description,
+        _eve_cat_name,
+        _eve_lat,
+        _eve_lon,
+        _par_name_th,
+        _dis_name_th,
+        _prv_name_th,
+        _eve_drop_carbon;
+    _eve_description = eve_description;
+    _eve_cat_name = eve_cat_name;
+    _eve_lat = eve_lat;
+    _eve_lon = eve_lon;
+    _par_name_th = par_name_th;
+    _dis_name_th = dis_name_th;
+    _prv_name_th = prv_name_th;
+    _eve_drop_carbon = eve_drop_carbon;
+    _eve_name = eve_name;
+    if (eve_name.length > 13) {
+      eve_name = eve_name.substring(0, 14) + '...';
+    }
+    _eve_img_path = eve_img_path;
     return GestureDetector(
       onTap: () => {
-        // Navigator.push(context,
-        //     MaterialPageRoute(builder: (context) => DestinationDetail(imagePath)))
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => detail_event(
+                  _eve_name,
+                  _eve_img_path,
+                  _eve_description,
+                  _eve_cat_name,
+                  _eve_lat,
+                  _eve_lon,
+                  _par_name_th,
+                  _dis_name_th,
+                  _prv_name_th,
+                  _eve_drop_carbon),
+            ))
       },
       child: Stack(children: [
         Hero(
           tag: Image.network(
-              "https://www.informatics.buu.ac.th/team2/image_event/${imagePath}"),
+              "https://www.informatics.buu.ac.th/team2/image_event/${_eve_img_path}"),
           child: Container(
             height: 200,
             width: 140,
@@ -411,7 +478,7 @@ class _Landing_pageState extends State<Landing_page> {
               borderRadius: BorderRadius.circular(25),
               image: DecorationImage(
                 image: NetworkImage(
-                    "https://www.informatics.buu.ac.th/team2/image_event/${imagePath}"),
+                    "https://www.informatics.buu.ac.th/team2/image_event/${_eve_img_path}"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -440,7 +507,7 @@ class _Landing_pageState extends State<Landing_page> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  "${eventName}",
+                  "${eve_name}",
                   style: TextStyle(color: Colors.white),
                 ),
               ]),
