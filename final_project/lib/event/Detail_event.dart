@@ -255,24 +255,4 @@ class _detail_eventState extends State<detail_event> {
       ),
     );
   }
-
-  Future get_detail_event() async {
-    var url = Uri.parse(
-        'https://www.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_event_list_landingpage/');
-
-    var respone = await http.get(url);
-
-    var result = json.decode(respone.body);
-    return result['arr_event'];
-  }
-
-  Future get_list_event() async {
-    var url = Uri.parse(
-        'https://www.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_event_list_ajax');
-
-    var respone = await http.get(url);
-
-    var result = json.decode(respone.body);
-    return result['arr_event'];
-  }
 }

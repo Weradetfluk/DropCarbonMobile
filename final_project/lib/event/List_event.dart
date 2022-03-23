@@ -229,7 +229,7 @@ class _List_eventState extends State<List_event> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => detail_event(
-                                _eve_name,
+                                eve_name,
                                 _eve_img_path,
                                 _eve_description,
                                 _eve_cat_name,
