@@ -7,6 +7,7 @@ import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:final_project/event/List_event.dart';
 import 'package:final_project/promotion/List_promotion.dart';
+import 'package:final_project/company/List_company.dart';
 
 class Slide {
   String imageUrl;
@@ -165,7 +166,7 @@ class _Landing_pageState extends State<Landing_page> {
           SizedBox(height: 20),
           Padding(
             padding:
-                const EdgeInsets.only(top: 10, left: 25, right: 25, bottom: 30),
+                const EdgeInsets.only(top: 5, left: 25, right: 25, bottom: 30),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -173,9 +174,16 @@ class _Landing_pageState extends State<Landing_page> {
                   'สถานที่ยอดนิยม',
                   style: TextStyle(fontSize: 24),
                 ),
-                Text(
-                  'ดูเพิ่มเติม',
-                  style: TextStyle(fontSize: 16),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => List_company(),
+                      ),
+                    );
+                  },
+                  child: Text("ดูเพิ่มเติม"),
                 ),
               ],
             ),
