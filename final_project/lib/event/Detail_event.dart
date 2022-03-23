@@ -5,6 +5,8 @@ import 'dart:convert';
 import 'package:final_project/landingpage/Landingpage.dart';
 import 'package:final_project/event/List_event.dart';
 import 'package:readmore/readmore.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 class detail_event extends StatefulWidget {
   // const detail_event({Key? key}) : super(key: key);
@@ -54,12 +56,16 @@ class _detail_eventState extends State<detail_event> {
     _eve_img_path = widget._eve_img_path;
     _eve_description = widget._eve_description;
     _eve_cat_name = widget._eve_cat_name;
-    _eve_lat = widget._eve_lat;
-    _eve_lon = widget._eve_lon;
+    _eve_lat = double.parse(widget._eve_lat);
+    assert(_eve_lat is double);
+    _eve_lon = double.parse(widget._eve_lon);
+    assert(_eve_lon is double);
     _par_name_th = widget._par_name_th;
     _dis_name_th = widget._dis_name_th;
     _prv_name_th = widget._prv_name_th;
     _eve_drop_carbon = widget._eve_drop_carbon;
+    print(_eve_lat);
+    print(_eve_lon);
   }
 
   bool isFav = false;
@@ -260,6 +266,39 @@ class _detail_eventState extends State<detail_event> {
             ),
             Divider(
               color: const Color(0xFF167F67),
+            ),
+            SizedBox(
+              width: 300,
+              height: 300,
+              child: new FlutterMap(
+                options: new MapOptions(
+                    center: new LatLng(_eve_lat, _eve_lon),
+                    minZoom: 10.0,
+                    zoom: 15.0),
+                layers: [
+                  new TileLayerOptions(
+                    urlTemplate:
+                        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    subdomains: ['a', 'b', 'c'],
+                  ),
+                  new MarkerLayerOptions(markers: [
+                    new Marker(
+                        width: 45.0,
+                        height: 45.0,
+                        point: new LatLng(_eve_lat, _eve_lon),
+                        builder: (context) => new Container(
+                              child: IconButton(
+                                icon: Icon(Icons.location_on),
+                                color: Colors.red,
+                                iconSize: 45.0,
+                                onPressed: () {
+                                  print('Marker tap');
+                                },
+                              ),
+                            ))
+                  ])
+                ],
+              ),
             ),
           ],
         ),
