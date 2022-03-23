@@ -38,6 +38,12 @@ dependencies:
   card_swiper: ^2.0.1
   page_indicator: ^0.4.1
   readmore: ^2.1.0
+  flutter_launcher_icons: ^0.9.2
+
+
+flutter_icons:
+  android: true
+  image_path: "logo/Logo-only-new.png"
 
 dev_dependencies:
   flutter_test:
