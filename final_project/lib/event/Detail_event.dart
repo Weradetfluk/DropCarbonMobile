@@ -8,6 +8,7 @@ import 'package:readmore/readmore.dart';
 
 class detail_event extends StatefulWidget {
   // const detail_event({Key? key}) : super(key: key);
+
   final _eve_name,
       _eve_img_path,
       _eve_description,
@@ -133,14 +134,23 @@ class _detail_eventState extends State<detail_event> {
                 ),
               ],
             ),
+            SizedBox(height: 20.0),
+            Text(
+              _eve_name,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
+              maxLines: 2,
+            ),
             SizedBox(height: 10.0),
             Padding(
               padding: EdgeInsets.only(bottom: 5.0, top: 2.0),
               child: Row(
                 children: <Widget>[
-                  Icon(
-                    Icons.location_pin,
-                    size: 14,
+                  Image.asset(
+                    'assets/images/google-maps.png',
+                    width: 25,
                   ),
                   SizedBox(width: 12),
                   Text(
@@ -148,7 +158,7 @@ class _detail_eventState extends State<detail_event> {
                         _par_name_th +
                         ' อำเภอ : ' +
                         _dis_name_th +
-                        ' จังหวัด : ' +
+                        '\nจังหวัด : ' +
                         _prv_name_th,
                     // style: appTheme.textTheme.caption,
                   ),
@@ -158,6 +168,7 @@ class _detail_eventState extends State<detail_event> {
                 ],
               ),
             ),
+            SizedBox(width: 12),
             SizedBox(height: 10.0),
             Padding(
               padding: EdgeInsets.only(bottom: 5.0, top: 2.0),
@@ -221,12 +232,12 @@ class _detail_eventState extends State<detail_event> {
                   ),
                   SizedBox(height: 20.0),
                   Text(
-                    "รายละเอียดกิจกรรม",
+                    " รายละเอียดกิจกรรม",
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.w600,
+                      // fontWeight: FontWeight.w600,
                     ),
-                    maxLines: 2,
+                    // maxLines: 2,
                   ),
                   SizedBox(height: 10.0),
                 ],
