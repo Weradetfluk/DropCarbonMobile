@@ -13,12 +13,11 @@ class List_promotion extends StatefulWidget {
 }
 
 class _List_promotionState extends State<List_promotion> {
-
   List pro_list = [];
   TextEditingController search = new TextEditingController();
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     get_list_pro();
   }
@@ -64,9 +63,7 @@ class _List_promotionState extends State<List_promotion> {
             ListTile(
               title: const Text('เข้าสู่ระบบ'),
               onTap: () {
-                setState(() {
-
-                });
+                setState(() {});
               },
             ),
           ],
@@ -110,15 +107,14 @@ class _List_promotionState extends State<List_promotion> {
                 ),
               ],
             )),
-
             Row(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(4.0),
-                  child: Text('รายการโปรโมชัน',
-                      style: TextStyle(color: Colors.black, fontSize: 24),
-                      ),
-                      
+                  child: Text(
+                    'รายการโปรโมชัน',
+                    style: TextStyle(color: Colors.black, fontSize: 24),
+                  ),
                 ),
               ],
             ),
@@ -141,16 +137,21 @@ class _List_promotionState extends State<List_promotion> {
           print("---------------------------------------------------");
           print(pro_list[index]['pro_name']);
           return build_card_promotion(
-            pro_list[index]['pro_id'],
-            pro_list[index]['pro_name'],
-            pro_list[index]['pro_description'],
-            pro_list[index]['pro_add_date'],
-            pro_list[index]['pro_start_date'],
-            pro_list[index]['pro_end_date'],
-            pro_list[index]['pro_cat_name'],
-            pro_list[index]['pro_img_path'],
-            pro_list[index]['pro_img_name'],
-            context);
+              pro_list[index]['pro_id'],
+              pro_list[index]['pro_name'],
+              pro_list[index]['pro_description'],
+              pro_list[index]['pro_add_date'],
+              pro_list[index]['pro_start_date'],
+              pro_list[index]['pro_end_date'],
+              pro_list[index]['pro_cat_name'],
+              pro_list[index]['pro_img_path'],
+              pro_list[index]['pro_img_name'],
+              pro_list[index]['pro_lat'],
+              pro_list[index]['pro_lon'],
+              pro_list[index]['par_name_th'],
+              pro_list[index]['dis_name_th'],
+              pro_list[index]['prv_name_th'],
+              context);
         },
       ),
       // child: build_card_promotion(context),
@@ -158,31 +159,40 @@ class _List_promotionState extends State<List_promotion> {
   }
 
   Widget build_card_promotion(
-  String pro_id,
-  String pro_name, 
-  String pro_description, 
-  String pro_add_date, 
-  String pro_start_date, 
-  String pro_end_date, 
-  String pro_cat_name,
-  String pro_img_path,
-  String pro_img_name,
-  context) 
-{
-  var _pro_id = pro_id;
-  var _pro_name = pro_name;
-  var _pro_description = pro_description;
-  var _pro_add_date = pro_add_date;
-  var _pro_start_date  = pro_start_date;
-  var _pro_end_date = pro_end_date;
-  var _pro_cat_name = pro_cat_name;
-  var _pro_img_path = pro_img_path;
-  var _pro_img_name = pro_img_name;
-  
-  if (_pro_name.length > 13) {
+      String pro_id,
+      String pro_name,
+      String pro_description,
+      String pro_add_date,
+      String pro_start_date,
+      String pro_end_date,
+      String pro_cat_name,
+      String pro_img_path,
+      String pro_img_name,
+      String pro_lat,
+      String pro_lon,
+      String par_name_th,
+      String dis_name_th,
+      String prv_name_th,
+      context) {
+    var _pro_id = pro_id;
+    var _pro_name = pro_name;
+    var _pro_description = pro_description;
+    var _pro_add_date = pro_add_date;
+    var _pro_start_date = pro_start_date;
+    var _pro_end_date = pro_end_date;
+    var _pro_cat_name = pro_cat_name;
+    var _pro_img_path = pro_img_path;
+    var _pro_img_name = pro_img_name;
+    var _pro_lat = pro_lat;
+    var _pro_lon = pro_lon;
+    var _par_name_th = par_name_th;
+    var _dis_name_th = dis_name_th;
+    var _prv_name_th = prv_name_th;
+
+    if (_pro_name.length > 13) {
       _pro_name = _pro_name.substring(0, 14) + '...';
       print(_pro_name);
-  }
+    }
     return Padding(
       padding: const EdgeInsets.all(3.0),
       child: Card(
@@ -192,8 +202,8 @@ class _List_promotionState extends State<List_promotion> {
             Row(
               children: [
                 Image.network(
-                  'https://prepro.informatics.buu.ac.th/team2/image_promotions/' + _pro_img_path,
-                  
+                  'https://prepro.informatics.buu.ac.th/team2/image_promotions/' +
+                      _pro_img_path,
                   fit: BoxFit.cover,
                   width: 150,
                   height: 100,
@@ -216,7 +226,16 @@ class _List_promotionState extends State<List_promotion> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Detail_promotion(),
+                            builder: (context) => Detail_promotion(
+                                pro_name,
+                                _pro_img_path,
+                                _pro_description,
+                                _pro_cat_name,
+                                _pro_lat,
+                                _pro_lon,
+                                _par_name_th,
+                                _dis_name_th,
+                                _prv_name_th),
                           ),
                         );
                       },
@@ -230,7 +249,6 @@ class _List_promotionState extends State<List_promotion> {
       ),
     );
   }
-
 
   Future get_list_pro() async {
     var url = Uri.parse(
@@ -256,7 +274,6 @@ class _List_promotionState extends State<List_promotion> {
       pro_list = result['arr_pro'];
     });
   }
-
 }
 
 //  Widget build_list_promotion() {
