@@ -205,21 +205,6 @@ class _Detail_promotionState extends State<Detail_promotion> {
               child: Row(
                 children: <Widget>[
                   Image.asset(
-                    'assets/images/carbon-dioxide.png',
-                    width: 25,
-                  ),
-                  SizedBox(height: 20.0),
-                ],
-              ),
-            ),
-            Divider(
-              color: const Color(0xFF167F67),
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 5.0, top: 2.0),
-              child: Row(
-                children: <Widget>[
-                  Image.asset(
                     'assets/images/proof-reading.png',
                     width: 25,
                   ),
