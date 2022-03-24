@@ -14,13 +14,13 @@ class List_promotion extends StatefulWidget {
 
 class _List_promotionState extends State<List_promotion> {
 
-  List promotion_list = [];
+  List pro_list = [];
   TextEditingController search = new TextEditingController();
 
   @override
   void initState(){
     super.initState();
-    // get_list_promotion();
+    get_list_pro();
   }
 
   @override
@@ -104,6 +104,7 @@ class _List_promotionState extends State<List_promotion> {
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Colors.blue)),
                   onPressed: () {
+                    get_list_pro_by_search(search.text);
                   },
                   child: Text("ค้นหา"),
                 ),
@@ -124,39 +125,64 @@ class _List_promotionState extends State<List_promotion> {
             SizedBox(
               height: 10,
             ),
-            // build_list_event()
             build_list_promotion(),
-            // TextButton(
-            //       onPressed: () {
-            //         Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //             builder: (context) => Detail_promotion(),
-            //           ),
-            //         );
-            //       },
-            //       child: Text("ดูเพิ่มเติม"),
-            //     ),
           ],
         ),
       ),
     );
   }
-}
 
- Widget build_list_promotion() {
+  Widget build_list_promotion() {
     return SizedBox(
       height: 450,
       child: ListView.builder(
+        itemCount: pro_list.length,
         itemBuilder: (context, index) {
-          return build_card_promotion(context);
+          print("---------------------------------------------------");
+          print(pro_list[index]['pro_name']);
+          return build_card_promotion(
+            pro_list[index]['pro_id'],
+            pro_list[index]['pro_name'],
+            pro_list[index]['pro_description'],
+            pro_list[index]['pro_add_date'],
+            pro_list[index]['pro_start_date'],
+            pro_list[index]['pro_end_date'],
+            pro_list[index]['pro_cat_name'],
+            pro_list[index]['pro_img_path'],
+            pro_list[index]['pro_img_name'],
+            context);
         },
       ),
       // child: build_card_promotion(context),
     );
   }
 
-Widget build_card_promotion(context) {
+  Widget build_card_promotion(
+  String pro_id,
+  String pro_name, 
+  String pro_description, 
+  String pro_add_date, 
+  String pro_start_date, 
+  String pro_end_date, 
+  String pro_cat_name,
+  String pro_img_path,
+  String pro_img_name,
+  context) 
+{
+  var _pro_id = pro_id;
+  var _pro_name = pro_name;
+  var _pro_description = pro_description;
+  var _pro_add_date = pro_add_date;
+  var _pro_start_date  = pro_start_date;
+  var _pro_end_date = pro_end_date;
+  var _pro_cat_name = pro_cat_name;
+  var _pro_img_path = pro_img_path;
+  var _pro_img_name = pro_img_name;
+  
+  if (_pro_name.length > 13) {
+      _pro_name = _pro_name.substring(0, 14) + '...';
+      print(_pro_name);
+  }
     return Padding(
       padding: const EdgeInsets.all(3.0),
       child: Card(
@@ -166,7 +192,8 @@ Widget build_card_promotion(context) {
             Row(
               children: [
                 Image.network(
-                  'https://www.informatics.buu.ac.th/team2/image_promotions/620cc76964f172.54705328.jpg',
+                  'https://prepro.informatics.buu.ac.th/team2/image_promotions/' + _pro_img_path,
+                  
                   fit: BoxFit.cover,
                   width: 150,
                   height: 100,
@@ -175,7 +202,8 @@ Widget build_card_promotion(context) {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text("Buy 1 Get 1 Free!"),
+                      // child: Text("Buy 1 Get 1 Free!"),
+                      child: Text(_pro_name),
                     ),
                   ],
                 ),
@@ -202,3 +230,103 @@ Widget build_card_promotion(context) {
       ),
     );
   }
+
+
+  Future get_list_pro() async {
+    var url = Uri.parse(
+        'https://prepro.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_pro_list_ajax');
+
+    var respone = await http.get(url);
+
+    var result = json.decode(respone.body);
+    print(result);
+    setState(() {
+      pro_list = result['arr_pro'];
+    });
+  }
+
+  Future get_list_pro_by_search(String _search) async {
+    // print(_search);
+    var url = Uri.parse(
+        'https://prepro.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_pro_list_ajax/${_search}');
+    var respone = await http.get(url);
+    var result = json.decode(respone.body);
+    // print(path);
+    setState(() {
+      pro_list = result['arr_pro'];
+    });
+  }
+
+}
+
+//  Widget build_list_promotion() {
+//     return SizedBox(
+//       height: 450,
+//       child: ListView.builder(
+//         itemCount: pro_list.length,
+//         itemBuilder: (context, index) {
+//           return build_card_promotion(context);
+//         },
+//       ),
+//       // child: build_card_promotion(context),
+//     );
+//   }
+
+// Widget build_card_promotion(
+//   String pro_list,
+//   String pro_id,
+//   String pro_name, 
+//   String pro_description, 
+//   String pro_add_date, 
+//   String pro_start_date, 
+//   String pro_end_date, 
+//   String pro_com_name,
+//   String pro_img_path,
+//   String pro_img_name,
+//   context) 
+// {
+//     return Padding(
+//       padding: const EdgeInsets.all(3.0),
+//       child: Card(
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Row(
+//               children: [
+//                 Image.network(
+//                   'https://www.informatics.buu.ac.th/team2/image_promotions/620cc76964f172.54705328.jpg',
+//                   fit: BoxFit.cover,
+//                   width: 150,
+//                   height: 100,
+//                 ),
+//                 Column(
+//                   children: [
+//                     Padding(
+//                       padding: const EdgeInsets.all(8.0),
+//                       child: Text("Buy 1 Get 1 Free!"),
+//                     ),
+//                   ],
+//                 ),
+//                 Column(
+//                   children: [
+//                     TextButton.icon(
+//                       icon: Icon(Icons.keyboard_double_arrow_right),
+//                       label: Text(''),
+//                       onPressed: () {
+//                         Navigator.push(
+//                           context,
+//                           MaterialPageRoute(
+//                             builder: (context) => Detail_promotion(),
+//                           ),
+//                         );
+//                       },
+//                     ),
+//                   ],
+//                 ),
+//               ],
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
