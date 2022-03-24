@@ -1,3 +1,4 @@
+import 'package:final_project/company/Detail_company.dart';
 import 'package:final_project/event/Detail_event.dart';
 import 'package:flutter/material.dart';
 import '/template/colors.dart';
@@ -200,8 +201,15 @@ class _Landing_pageState extends State<Landing_page> {
                         padding: EdgeInsets.only(left: index == 0 ? 30 : 0),
                         child: Hotplace(
                           context,
-                          lst_com_list[index]["com_img_path"],
-                          lst_com_list[index]["com_name"],
+                          lst_com_list[index]["com_name"].toString(),
+                          lst_com_list[index]["com_img_path"].toString(),
+                          lst_com_list[index]["com_description"].toString(),
+                          lst_com_list[index]["com_cat_name"].toString(),
+                          lst_com_list[index]["com_lat"].toString(),
+                          lst_com_list[index]["com_lon"].toString(),
+                          lst_com_list[index]["par_name_th"].toString(),
+                          lst_com_list[index]["dis_name_th"].toString(),
+                          lst_com_list[index]["prv_name_th"].toString(),
                         ),
                       );
                     });
@@ -451,17 +459,19 @@ class _Landing_pageState extends State<Landing_page> {
     _prv_name_th = prv_name_th;
     _eve_drop_carbon = eve_drop_carbon;
     _eve_name = eve_name;
-    if (eve_name.length > 13) {
-      eve_name = eve_name.substring(0, 14) + '...';
+    if (_eve_name.length > 13) {
+      _eve_name = _eve_name.substring(0, 14) + '...';
     }
     _eve_img_path = eve_img_path;
+    print(eve_lat);
+    print(eve_lon);
     return GestureDetector(
       onTap: () => {
         Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => detail_event(
-                  _eve_name,
+                  eve_name,
                   _eve_img_path,
                   _eve_description,
                   _eve_cat_name,
@@ -515,7 +525,7 @@ class _Landing_pageState extends State<Landing_page> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  "${eve_name}",
+                  "${_eve_name}",
                   style: TextStyle(color: Colors.white),
                 ),
               ]),
@@ -524,16 +534,62 @@ class _Landing_pageState extends State<Landing_page> {
     );
   }
 
-  Widget Hotplace(BuildContext context, String imagePath, String comName) {
+  Widget Hotplace(
+    BuildContext context,
+    String com_name,
+    String com_img_path,
+    String com_description,
+    String com_cat_name,
+    String com_lat,
+    String com_lon,
+    String par_name_th,
+    String dis_name_th,
+    String prv_name_th,
+  ) {
+    var _com_name,
+        _com_img_path,
+        _com_description,
+        _com_cat_name,
+        _com_lat,
+        _com_lon,
+        _par_name_th,
+        _dis_name_th,
+        _prv_name_th;
+    _com_description = com_description;
+    _com_cat_name = com_cat_name;
+    _com_lat = com_lat;
+    _com_lon = com_lon;
+    _par_name_th = par_name_th;
+    _dis_name_th = dis_name_th;
+    _prv_name_th = prv_name_th;
+    _com_name = com_name;
+    if (_com_name.length > 13) {
+      _com_name = _com_name.substring(0, 14) + '...';
+    }
+    _com_img_path = com_img_path;
     return GestureDetector(
       onTap: () => {
-        // Navigator.push(context,
-        //     MaterialPageRoute(builder: (context) => DestinationDetail(imagePath)))
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => detail_company(
+                com_name,
+                _com_img_path,
+                _com_description,
+                _com_cat_name,
+                _com_lat,
+                _com_lon,
+                _par_name_th,
+                _dis_name_th,
+                _prv_name_th),
+          ),
+        ),
+        
       },
       child: Stack(children: [
         Hero(
           tag: Image.network(
-              "https://www.informatics.buu.ac.th/team2/image_event/${imagePath}"),
+              "https://www.informatics.buu.ac.th/team2/image_event/${com_img_path}"),
           child: Container(
             height: 200,
             width: 140,
@@ -543,7 +599,7 @@ class _Landing_pageState extends State<Landing_page> {
               borderRadius: BorderRadius.circular(25),
               image: DecorationImage(
                 image: NetworkImage(
-                    "https://www.informatics.buu.ac.th/team2/image_company/${imagePath}"),
+                    "https://www.informatics.buu.ac.th/team2/image_company/${com_img_path}"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -572,7 +628,7 @@ class _Landing_pageState extends State<Landing_page> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  "${comName}",
+                  "${_com_name}",
                   style: TextStyle(color: Colors.white),
                 ),
               ]),
