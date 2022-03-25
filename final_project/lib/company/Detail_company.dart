@@ -5,9 +5,11 @@ import 'dart:convert';
 import 'package:final_project/landingpage/Landingpage.dart';
 import 'package:final_project/company/List_company.dart';
 import 'package:readmore/readmore.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 class detail_company extends StatefulWidget {
-  // const detail_event({Key? key}) : super(key: key);
+  // const detail_company({Key? key}) : super(key: key);
   final _com_name,
         _com_img_path,
         _com_description,
@@ -51,11 +53,15 @@ class _detail_companyState extends State<detail_company> {
     _com_img_path = widget._com_img_path;
     _com_description = widget._com_description;
     _com_cat_name = widget._com_cat_name;
-    _com_lat = widget._com_lat;
-    _com_lon = widget._com_lon;
+    _com_lat = double.parse(widget._com_lat);
+    assert(_com_lat is double);
+    _com_lon = double.parse(widget._com_lon);
+    assert(_com_lon is double);
     _par_name_th = widget._par_name_th;
     _dis_name_th = widget._dis_name_th;
     _prv_name_th = widget._prv_name_th;
+    print(_com_lat);
+    print(_com_lon);
   }
 
   bool isFav = false;
@@ -130,14 +136,23 @@ class _detail_companyState extends State<detail_company> {
                 ),
               ],
             ),
+            SizedBox(height: 20.0),
+            Text(
+              _com_name,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
+              maxLines: 2,
+            ),
             SizedBox(height: 10.0),
             Padding(
               padding: EdgeInsets.only(bottom: 5.0, top: 2.0),
               child: Row(
                 children: <Widget>[
-                  Icon(
-                    Icons.location_pin,
-                    size: 14,
+                  Image.asset(
+                    'assets/images/google-maps.png',
+                    width: 25,
                   ),
                   SizedBox(width: 12),
                   Text(
@@ -145,7 +160,7 @@ class _detail_companyState extends State<detail_company> {
                         _par_name_th +
                         ' อำเภอ : ' +
                         _dis_name_th +
-                        ' จังหวัด : ' +
+                        '\nจังหวัด : ' +
                         _prv_name_th,
                     // style: appTheme.textTheme.caption,
                   ),
@@ -175,31 +190,6 @@ class _detail_companyState extends State<detail_company> {
                     _com_cat_name,
                     style: TextStyle(
                       fontSize: 18.0,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Divider(
-              color: const Color(0xFF167F67),
-            ),
-            SizedBox(height: 10.0),
-            Padding(
-              padding: EdgeInsets.only(bottom: 5.0, top: 2.0),
-              child: Row(
-                children: <Widget>[
-                  Image.asset(
-                    'assets/images/carbon-dioxide.png',
-                    width: 25,
-                  ),
-                  SizedBox(height: 20.0),
-                  Text(
-                    " ลดคาร์บอนไดออกไซด์ : " +
-                        // _eve_drop_carbon +
-                        " กิโลกรัม/ปี",
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      // fontWeight: FontWeight.w300,
                     ),
                   ),
                 ],
@@ -246,6 +236,39 @@ class _detail_companyState extends State<detail_company> {
             ),
             Divider(
               color: const Color(0xFF167F67),
+            ),
+            SizedBox(
+              width: 300,
+              height: 300,
+              child: new FlutterMap(
+                options: new MapOptions(
+                    center: new LatLng(_com_lat, _com_lon),
+                    minZoom: 10.0,
+                    zoom: 15.0),
+                layers: [
+                  new TileLayerOptions(
+                    urlTemplate:
+                        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    subdomains: ['a', 'b', 'c'],
+                  ),
+                  new MarkerLayerOptions(markers: [
+                    new Marker(
+                        width: 45.0,
+                        height: 45.0,
+                        point: new LatLng(_com_lat, _com_lon),
+                        builder: (context) => new Container(
+                              child: IconButton(
+                                icon: Icon(Icons.location_on),
+                                color: Colors.red,
+                                iconSize: 45.0,
+                                onPressed: () {
+                                  print('Marker tap');
+                                },
+                              ),
+                            ))
+                  ])
+                ],
+              ),
             ),
           ],
         ),
