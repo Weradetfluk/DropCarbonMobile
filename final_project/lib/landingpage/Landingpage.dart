@@ -1,5 +1,6 @@
 import 'package:final_project/company/Detail_company.dart';
 import 'package:final_project/event/Detail_event.dart';
+import 'package:final_project/promotion/Detail_promotion.dart';
 import 'package:flutter/material.dart';
 import '/template/colors.dart';
 import 'dart:convert';
@@ -414,8 +415,15 @@ class _Landing_pageState extends State<Landing_page> {
                         padding: EdgeInsets.only(left: index == 0 ? 30 : 0),
                         child: HotPromotion(
                           context,
-                          lst_data_promotions[index]["pro_img_path"],
-                          lst_data_promotions[index]["pro_name"],
+                          lst_data_promotions[index]["pro_name"].toString(),
+                          lst_data_promotions[index]["pro_img_path"].toString(),
+                          lst_data_promotions[index]["pro_description"].toString(),
+                          lst_data_promotions[index]["pro_cat_name"].toString(),
+                          lst_data_promotions[index]["com_lat"].toString(),
+                          lst_data_promotions[index]["com_lon"].toString(),
+                          lst_data_promotions[index]["par_name_th"].toString(),
+                          lst_data_promotions[index]["dis_name_th"].toString(),
+                          lst_data_promotions[index]["prv_name_th"].toString(),
                         ),
                       );
                     });
@@ -584,7 +592,6 @@ class _Landing_pageState extends State<Landing_page> {
                 _prv_name_th),
           ),
         ),
-        
       },
       child: Stack(children: [
         Hero(
@@ -638,16 +645,62 @@ class _Landing_pageState extends State<Landing_page> {
   }
 
   Widget HotPromotion(
-      BuildContext context, String imagePath, String promotionName) {
+    BuildContext context,
+    String pro_name,
+    String pro_img_path,
+    String pro_description,
+    String pro_cat_name,
+    String pro_lat,
+    String pro_lon,
+    String par_name_th,
+    String dis_name_th,
+    String prv_name_th,
+  ) {
+    var _pro_name,
+        _pro_img_path,
+        _pro_description,
+        _pro_cat_name,
+        _pro_lat,
+        _pro_lon,
+        _par_name_th,
+        _dis_name_th,
+        _prv_name_th;
+    _pro_description = pro_description;
+    _pro_cat_name = pro_cat_name;
+    _pro_lat = pro_lat;
+    _pro_lon = pro_lon;
+    _par_name_th = par_name_th;
+    _dis_name_th = dis_name_th;
+    _prv_name_th = prv_name_th;
+    _pro_name = pro_name;
+    if (_pro_name.length > 13) {
+      _pro_name = _pro_name.substring(0, 14) + '...';
+    }
+    _pro_img_path = pro_img_path;
+    print(pro_lat);
+    print(pro_lon);
     return GestureDetector(
       onTap: () => {
-        // Navigator.push(context,
-        //     MaterialPageRoute(builder: (context) => DestinationDetail(imagePath)))
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Detail_promotion(
+                pro_name,
+                _pro_img_path,
+                _pro_description,
+                _pro_cat_name,
+                _pro_lat,
+                _pro_lon,
+                _par_name_th,
+                _dis_name_th,
+                _prv_name_th),
+          ),
+        ),
       },
       child: Stack(children: [
         Hero(
           tag: Image.network(
-              "https://www.informatics.buu.ac.th/team2/image_promotions/${imagePath}"),
+              "https://www.informatics.buu.ac.th/team2/image_promotions/${pro_img_path}"),
           child: Container(
             height: 200,
             width: 140,
@@ -657,7 +710,7 @@ class _Landing_pageState extends State<Landing_page> {
               borderRadius: BorderRadius.circular(25),
               image: DecorationImage(
                 image: NetworkImage(
-                    "https://www.informatics.buu.ac.th/team2/image_promotions/${imagePath}"),
+                    "https://www.informatics.buu.ac.th/team2/image_promotions/${pro_img_path}"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -686,7 +739,7 @@ class _Landing_pageState extends State<Landing_page> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  "${promotionName}",
+                  "${pro_name}",
                   style: TextStyle(color: Colors.white),
                 ),
               ]),
