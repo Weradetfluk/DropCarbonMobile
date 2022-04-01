@@ -110,7 +110,7 @@ class _detail_companyState extends State<detail_company> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15.0),
                     child: Image.network(
-                      'https://www.informatics.buu.ac.th/team2/image_company/' +
+                      'https://prepro.informatics.buu.ac.th/team2/image_company/' +
                           _com_img_path,
                       fit: BoxFit.cover,
                     ),
