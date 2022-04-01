@@ -22,7 +22,7 @@ class Slide {
 
   @override
   String toString() {
-    return 'https://www.informatics.buu.ac.th/team2/banner/${this.imageUrl}';
+    return 'https://prepro.informatics.buu.ac.th/team2/banner/${this.imageUrl}';
   }
 }
 
@@ -319,7 +319,7 @@ class _Landing_pageState extends State<Landing_page> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "20",
+                       (lst_data_pros.length > 0 ? lst_data_pros[0]['tou'] : '' ) ,
                         style: TextStyle(fontSize: 30),
                       ),
                       Text(
@@ -333,7 +333,7 @@ class _Landing_pageState extends State<Landing_page> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "18",
+                          (lst_data_pros.length > 0 ? lst_data_pros[0]['ent'] : '' ),
                         style: TextStyle(fontSize: 30),
                       ),
                       Text(
@@ -351,7 +351,7 @@ class _Landing_pageState extends State<Landing_page> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "18",
+                         (lst_data_pros.length > 0 ? lst_data_pros[0]['eve'] : '' ),
                         style: TextStyle(fontSize: 30),
                       ),
                       Text(
@@ -365,7 +365,7 @@ class _Landing_pageState extends State<Landing_page> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "18",
+                          (lst_data_pros.length > 0 ? lst_data_pros[0]['com'] : '' ),
                         style: TextStyle(fontSize: 30),
                       ),
                       Text(
@@ -471,8 +471,6 @@ class _Landing_pageState extends State<Landing_page> {
       _eve_name = _eve_name.substring(0, 14) + '...';
     }
     _eve_img_path = eve_img_path;
-    print(eve_lat);
-    print(eve_lon);
     return GestureDetector(
       onTap: () => {
         Navigator.push(
@@ -494,7 +492,7 @@ class _Landing_pageState extends State<Landing_page> {
       child: Stack(children: [
         Hero(
           tag: Image.network(
-              "https://www.informatics.buu.ac.th/team2/image_event/${_eve_img_path}"),
+              "https://prepro.informatics.buu.ac.th/team2/image_event/${_eve_img_path}"),
           child: Container(
             height: 200,
             width: 140,
@@ -504,7 +502,7 @@ class _Landing_pageState extends State<Landing_page> {
               borderRadius: BorderRadius.circular(25),
               image: DecorationImage(
                 image: NetworkImage(
-                    "https://www.informatics.buu.ac.th/team2/image_event/${_eve_img_path}"),
+                    "https://prepro.informatics.buu.ac.th/team2/image_event/${_eve_img_path}"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -596,7 +594,7 @@ class _Landing_pageState extends State<Landing_page> {
       child: Stack(children: [
         Hero(
           tag: Image.network(
-              "https://www.informatics.buu.ac.th/team2/image_event/${com_img_path}"),
+              "https://prepro.informatics.buu.ac.th/team2/image_event/${com_img_path}"),
           child: Container(
             height: 200,
             width: 140,
@@ -606,7 +604,7 @@ class _Landing_pageState extends State<Landing_page> {
               borderRadius: BorderRadius.circular(25),
               image: DecorationImage(
                 image: NetworkImage(
-                    "https://www.informatics.buu.ac.th/team2/image_company/${com_img_path}"),
+                    "https://prepro.informatics.buu.ac.th/team2/image_company/${com_img_path}"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -677,8 +675,6 @@ class _Landing_pageState extends State<Landing_page> {
       _pro_name = _pro_name.substring(0, 14) + '...';
     }
     _pro_img_path = pro_img_path;
-    print(pro_lat);
-    print(pro_lon);
     return GestureDetector(
       onTap: () => {
         Navigator.push(
@@ -700,7 +696,7 @@ class _Landing_pageState extends State<Landing_page> {
       child: Stack(children: [
         Hero(
           tag: Image.network(
-              "https://www.informatics.buu.ac.th/team2/image_promotions/${pro_img_path}"),
+              "https://prepro.informatics.buu.ac.th/team2/image_promotions/${pro_img_path}"),
           child: Container(
             height: 200,
             width: 140,
@@ -710,7 +706,7 @@ class _Landing_pageState extends State<Landing_page> {
               borderRadius: BorderRadius.circular(25),
               image: DecorationImage(
                 image: NetworkImage(
-                    "https://www.informatics.buu.ac.th/team2/image_promotions/${pro_img_path}"),
+                    "https://prepro.informatics.buu.ac.th/team2/image_promotions/${pro_img_path}"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -783,7 +779,7 @@ class _Landing_pageState extends State<Landing_page> {
 
   Future get_data_banner() async {
     var url = Uri.parse(
-        'https://www.informatics.buu.ac.th/team2/Admin/Manage_banner/Admin_manage_banner/get_banner_list_ajax');
+        'https://prepro.informatics.buu.ac.th/team2/Admin/Manage_banner/Admin_manage_banner/get_banner_list_ajax');
 
     var respone = await http.get(url);
 
@@ -798,7 +794,7 @@ class _Landing_pageState extends State<Landing_page> {
 
   Future get_data_event() async {
     var url = Uri.parse(
-        'https://www.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_event_list_landingpage/');
+        'https://prepro.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_event_list_landingpage/');
 
     var respone = await http.get(url);
 
@@ -811,7 +807,7 @@ class _Landing_pageState extends State<Landing_page> {
 
   Future get_data_company() async {
     var url = Uri.parse(
-        'https://www.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_company_list_landingpage/');
+        'https://prepro.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_company_list_landingpage/');
 
     var respone = await http.get(url);
 
@@ -824,7 +820,7 @@ class _Landing_pageState extends State<Landing_page> {
 
   Future get_data_pros() async {
     var url = Uri.parse(
-        'https://www.informatics.buu.ac.th/team2/DCS_controller/get_data_pros/');
+        'https://prepro.informatics.buu.ac.th/team2/DCS_controller/get_data_pros/');
 
     var respone = await http.get(url);
 
@@ -832,13 +828,13 @@ class _Landing_pageState extends State<Landing_page> {
 
     setState(() {
       lst_data_pros = result['arr_data_pros'];
-      print(lst_data_pros);
+      // print(lst_data_pros[0]['tou']);
     });
   }
 
   Future get_data_promotions() async {
     var url = Uri.parse(
-        'https://www.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_promotion_list_landingpage/');
+        'https://prepro.informatics.buu.ac.th/team2/Landing_page/Landing_page/get_promotion_list_landingpage/');
 
     var respone = await http.get(url);
 
@@ -846,7 +842,7 @@ class _Landing_pageState extends State<Landing_page> {
 
     setState(() {
       lst_data_promotions = result['arr_pro'];
-      print(lst_data_promotions);
+      // print(lst_data_promotions);
     });
   }
 }
