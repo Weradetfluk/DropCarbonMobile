@@ -43,39 +43,42 @@ class _List_companyState extends State<List_company> {
             );
           },
         ),
+        actions: [
+          IconButton(onPressed: () {}, icon: Icon(Icons.dehaze_rounded))
+        ],
       ),
-      endDrawer: Drawer(
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              //header of drawer
-              decoration: BoxDecoration(
-                color: Colors.blueGrey,
-              ),
-              child: Text(
-                'Login App',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              title: const Text('เข้าสู่ระบบ'),
-              onTap: () {
-                setState(() {
-                  // Navigator.pushReplacement(context,
-                  //           MaterialPageRoute(builder: (context) {
-                  //         return true;
-                  //       }));
-                });
-              },
-            ),
-          ],
-        ), //Listview
-      ),
+      // endDrawer: Drawer(
+      //   child: ListView(
+      //     // Important: Remove any padding from the ListView.
+      //     padding: EdgeInsets.zero,
+      //     children: [
+      //       DrawerHeader(
+      //         //header of drawer
+      //         decoration: BoxDecoration(
+      //           color: Colors.blueGrey,
+      //         ),
+      //         child: Text(
+      //           'Login App',
+      //           style: TextStyle(
+      //             color: Colors.white,
+      //             fontSize: 24,
+      //           ),
+      //         ),
+      //       ),
+      //       ListTile(
+      //         title: const Text('เข้าสู่ระบบ'),
+      //         onTap: () {
+      //           setState(() {
+      //             // Navigator.pushReplacement(context,
+      //             //           MaterialPageRoute(builder: (context) {
+      //             //         return true;
+      //             //       }));
+      //           });
+      //         },
+      //       ),
+      //     ],
+      //   ), //Listview
+      // ),
       body: Padding(
         padding: const EdgeInsets.all(5.0),
         child: Column(

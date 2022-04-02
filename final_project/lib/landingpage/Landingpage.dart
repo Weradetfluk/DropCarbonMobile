@@ -59,35 +59,10 @@ class _Landing_pageState extends State<Landing_page> {
           style: TextStyle(color: Colors.black),
         ),
         leading: Image.asset('assets/images/Logo-only-new.png'),
+        actions: [
+          IconButton(onPressed: () {}, icon: Icon(Icons.dehaze_rounded))
+        ],
       ),
-      endDrawer: Drawer(
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              //header of drawer
-              decoration: BoxDecoration(
-                color: Colors.blueGrey,
-              ),
-              child: Text(
-                'Login App',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              title: const Text('เข้าสู่ระบบ'),
-              onTap: () {
-                setState(() {});
-              },
-            ),
-          ],
-        ), //Listview
-      ), //Drawer
-
       body: ListView(
         children: [
           Container(
@@ -319,7 +294,9 @@ class _Landing_pageState extends State<Landing_page> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                       (lst_data_pros.length > 0 ? lst_data_pros[0]['tou'] : '' ) ,
+                        (lst_data_pros.length > 0
+                            ? lst_data_pros[0]['tou']
+                            : ''),
                         style: TextStyle(fontSize: 30),
                       ),
                       Text(
@@ -333,7 +310,9 @@ class _Landing_pageState extends State<Landing_page> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                          (lst_data_pros.length > 0 ? lst_data_pros[0]['ent'] : '' ),
+                        (lst_data_pros.length > 0
+                            ? lst_data_pros[0]['ent']
+                            : ''),
                         style: TextStyle(fontSize: 30),
                       ),
                       Text(
@@ -351,7 +330,9 @@ class _Landing_pageState extends State<Landing_page> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                         (lst_data_pros.length > 0 ? lst_data_pros[0]['eve'] : '' ),
+                        (lst_data_pros.length > 0
+                            ? lst_data_pros[0]['eve']
+                            : ''),
                         style: TextStyle(fontSize: 30),
                       ),
                       Text(
@@ -365,7 +346,9 @@ class _Landing_pageState extends State<Landing_page> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                          (lst_data_pros.length > 0 ? lst_data_pros[0]['com'] : '' ),
+                        (lst_data_pros.length > 0
+                            ? lst_data_pros[0]['com']
+                            : ''),
                         style: TextStyle(fontSize: 30),
                       ),
                       Text(
@@ -417,7 +400,8 @@ class _Landing_pageState extends State<Landing_page> {
                           context,
                           lst_data_promotions[index]["pro_name"].toString(),
                           lst_data_promotions[index]["pro_img_path"].toString(),
-                          lst_data_promotions[index]["pro_description"].toString(),
+                          lst_data_promotions[index]["pro_description"]
+                              .toString(),
                           lst_data_promotions[index]["pro_cat_name"].toString(),
                           lst_data_promotions[index]["com_lat"].toString(),
                           lst_data_promotions[index]["com_lon"].toString(),
