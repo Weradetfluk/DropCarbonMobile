@@ -114,7 +114,7 @@ class _detail_eventState extends State<detail_event> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15.0),
                     child: Image.network(
-                      'https://www.informatics.buu.ac.th/team2/image_event/' +
+                      'https://prepro.informatics.buu.ac.th/team2/image_event/' +
                           _eve_img_path,
                       fit: BoxFit.cover,
                     ),
